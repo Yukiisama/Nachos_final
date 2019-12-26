@@ -18,11 +18,17 @@
 #include "translate.h"
 #include "noff.h"
 #include "list.h"
+#include "bitmap.h"
+
+
 #ifdef CHANGED
 class Semaphore;
+class Lock;
+class Thread;
+#define ThreadAreaSize         256
+#define UserStacksAreaSize     4048	// increase this as necessary!
+#define MAX_THREADS UserStacksAreaSize/ThreadAreaSize
 #endif // CHANGED
-
-#define UserStacksAreaSize		1024	// increase this as necessary!
 
 class AddrSpace:dontcopythis
 {
@@ -34,9 +40,10 @@ class AddrSpace:dontcopythis
 
     void InitRegisters ();	// Initialize user-level CPU registers,
     // before jumping to user code
-#ifdef CHANGED
+  
+  #ifdef CHANGED
     int AllocateUserStack(int position);
-#endif // CHANGED
+  #endif // CHANGED
     
     void SaveState ();		// Save/restore address space-specific
     void RestoreState ();	// info on a context switch 
@@ -47,19 +54,30 @@ class AddrSpace:dontcopythis
 				// Dump program layout as SVG
     unsigned NumPages() { return numPages; }
     #ifdef CHANGED
+
     void LockMain();
     void ReleaseMain();
+
     int GetNbThread();
     void AddTo_NbThread(int x);
-    #endif // CHANGED 
 
+    bool isThreadMapFull();
+    void ReleaseCase(int t_case);
+
+    BitMap * ThreadMap;
+    bool bonusExit;
+    
+    #endif // CHANGED 
   private:
     NoffHeader noffH;		// Program layout
 
     TranslationEntry * pageTable; // Page table
     unsigned int numPages;	// Number of pages in the page table
+    unsigned thread_pos;
     #ifdef CHANGED
     Semaphore * MainWait;
+    Lock * Mutex_ThreadPos;
+    Lock * Mutex_BM; 
     #endif // CHANGED 
 };
 

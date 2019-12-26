@@ -1,7 +1,0 @@
-
---Cette ligne, et les suivantes ci-dessous, seront ignorées--
-
-M    addrspace.cc
-M    addrspace.h
-M    exception.cc
-M    userthread.cc

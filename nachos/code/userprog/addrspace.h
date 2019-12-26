@@ -26,7 +26,7 @@ class Semaphore;
 class Lock;
 class Thread;
 #define ThreadAreaSize         256
-#define UserStacksAreaSize		4048	// increase this as necessary!
+#define UserStacksAreaSize     4048	// increase this as necessary!
 #define MAX_THREADS UserStacksAreaSize/ThreadAreaSize
 #endif // CHANGED
 
