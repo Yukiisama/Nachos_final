@@ -1,0 +1,34 @@
+
+--Cette ligne, et les suivantes ci-dessous, seront ignorées--
+
+AM   getchar
+A    getchar.c
+AM   getchar.coff
+AM   getint
+A    getint.c
+AM   getint.coff
+AM   getstring
+A    getstring.c
+AM   getstring.coff
+AM   halt
+AM   halt.coff
+AM   matmult
+AM   matmult.coff
+AM   printf
+A    printf.c
+AM   printf.coff
+AM   putchar
+AM   putchar.coff
+AM   putint
+A    putint.c
+AM   putint.coff
+AM   putstring
+A    putstring.c
+AM   putstring.coff
+AM   shell
+AM   shell.coff
+AM   sort
+AM   sort.coff
+AM   start.o
+A    svn-commit.tmp~
+AM   vsprintf.o

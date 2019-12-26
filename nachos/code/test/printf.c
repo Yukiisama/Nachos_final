@@ -1,0 +1,22 @@
+#include "syscall.h"
+#include <limits.h>
+/*the function printf used here is a the end of the file :test/vsprintf.c  ( it uses the fonction vsprintf ) 
+ */ 
+
+int
+main ()
+{
+    char * str  =  "Test 1 :ceci est une string pour tester mais elle est petite";
+    char c = 'a';
+    char maj = 'Z';
+    int n = -2288832, a=5,b=332;
+    int min = INT_MIN, max = INT_MAX; 
+    char * str1 = "Test 2 : longue string : ezaijoreiqpkingewmdsimnkywipcoqojzdwnuirpqlifbysweybzhriktznnmkarjluapjsspevclleoj";
+    printf("%s is string\n",str);
+    printf ("Test 3:  %c is a small char \n %c is a MAJ-Char \n et voici la variable n %d \n b est égale à %d \n",c,maj,b,n);
+    printf("%s is an other string\n",str1);
+    printf("Test 4 : Bornes limites des entiers INT_MIN : %d , INT MAX : %d \n",min,max); 
+    return 0;
+}
+
+ 

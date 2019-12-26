@@ -1,0 +1,12 @@
+#include "syscall.h"
+#include <limits.h>
+
+int main()
+{
+#if 1
+    PutInt(INT_MIN);
+    PutChar('\n');
+    PutInt(INT_MAX);
+#endif
+    return 0;
+}

@@ -1,0 +1,16 @@
+#include "syscall.h"
+
+void f(char c){
+  PutString("Test : ",6);
+  PutChar(c);
+  PutChar('\n');
+  ThreadExit();
+}
+
+int main(){
+  PutChar('a');
+  for(unsigned i = 0; i<8;i++)
+     ThreadCreate(f,'A'+i);
+  while(1);
+}
+ 

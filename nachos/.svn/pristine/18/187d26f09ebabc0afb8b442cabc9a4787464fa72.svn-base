@@ -1,0 +1,13 @@
+#include "syscall.h"
+
+
+int main()
+{
+#if 1
+    int size = 1000;
+	char str[size];
+	GetString(str,size);
+	PutString(str,size);
+#endif
+    return 0;
+}

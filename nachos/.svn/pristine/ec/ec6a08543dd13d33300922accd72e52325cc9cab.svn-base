@@ -1,0 +1,11 @@
+
+--Cette ligne, et les suivantes ci-dessous, seront ignorées--
+
+M    userprog/addrspace.cc
+M    userprog/exception.cc
+M    userprog/syscall.h
+M    threads/system.cc
+M    threads/system.h
+M    Makefile.common
+M    machine/machine.h
+M    test/start.S

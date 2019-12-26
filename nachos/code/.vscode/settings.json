@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "syscall.h": "c",
+        "*.txx": "cpp",
+        "random": "c",
+        "varargs.h": "c",
+        "*.tcc": "c",
+        "system.h": "c"
+    }
+}

@@ -1,0 +1,71 @@
+#include "thread.h"
+#include "userthread.h"
+#include "system.h"
+#ifdef CHANGED
+
+userthread::userthread(){
+
+}
+
+struct function_with_arg
+{
+    int f;
+    int arg;
+};
+
+static void StartUserThread(void *schmurtz){
+    struct function_with_arg * s = (function_with_arg *) schmurtz;
+    ASSERT(s!=NULL && s->f!=0 && s->arg!=0);
+    //Init registers
+    for (unsigned i = 0; i < NumTotalRegs; i++)
+        machine->WriteRegister (i, 0);
+    
+    // TODO : LA METHODE EST ENCORE TROP SIMPLISTE : Y REFLECHIR !! Si méthode simple gardée : créer un cpt pour les threads ici ( static )
+    int TopOfStack = currentThread->space->AllocateUserStack(currentThread->space->GetNbThread());
+      
+    // Initial program counter -- must be location of Thread function
+    machine->WriteRegister (PCReg, s->f);
+    DEBUG ('x', "DEBUG: Function: %d\n", s->f);
+
+    // Give the arg of the function in register r4
+    machine->WriteRegister (4, s->arg);
+    DEBUG ('x', "DEBUG: Arg: %d\n", s->arg);
+
+    // Need to also tell MIPS where next instruction is, because
+    // of branch delay possibility
+    machine->WriteRegister (NextPCReg, machine->ReadRegister(PCReg) + 4);
+    DEBUG ('x', "DEBUG: NextPcReg: %d\n", machine->ReadRegister(PCReg) + 4);
+
+    //TODO : write stackregister the stack adress init earlier
+    // Give the arg of the function in register r4
+    machine->WriteRegister (StackReg, TopOfStack);
+    DEBUG ('x', "DEBUG: TopOfStack: %d\n", TopOfStack);
+    //Relinquish the CPU if any other thread is ready to run.
+    currentThread->Yield();
+    machine->Run();
+    
+    delete s;
+}
+
+int do_ThreadCreate(int f , int arg){
+    //Until further modification (TODO: better stack allocate) , we use a cpt to know which thread we create
+    currentThread->space->AddTo_NbThread(+1);
+    Thread * new_thread = new Thread ("new_thread"); 
+    struct function_with_arg * schmurtz = new struct function_with_arg();
+    schmurtz->f = f; schmurtz->arg = arg;
+    new_thread->Start(StartUserThread,schmurtz);
+    //Relinquish the CPU if any other thread is ready to run.
+    currentThread->Yield();
+    return 0;
+    //TODO: penser à delete thread  mais je pense pas qu'il faut le faire ici.
+}
+void do_ThreadExit(){
+  if (currentThread->space->GetNbThread() > 1)
+    currentThread->space->AddTo_NbThread(-1);
+  else interrupt->Halt();
+
+  if(currentThread->space->GetNbThread()<=0)
+    currentThread->space->ReleaseMain();
+  currentThread->Finish();
+}
+#endif // CHANGED

@@ -1,0 +1,25 @@
+#include "system.h"
+#include "bitmap.h"
+#include "pageprovider.h"
+#ifdef CHANGED
+pageprovider::pageprovider(int size){
+    page_bitmap = new BitMap(size);
+}
+pageprovider::~pageprovider(){
+    delete page_bitmap;
+}
+int pageprovider::GetEmptyPage(){
+    int page = page_bitmap->Find();
+    //printf(" --> %d ",page);
+    if(page==-1) return -1;
+    memset(&machine->mainMemory[page*PageSize],0,PageSize);
+    return page;
+}
+
+void pageprovider::ReleasePage(int page){
+    page_bitmap->Clear(page);
+}
+int  pageprovider::NumAvailPage(){
+    return page_bitmap->NumClear();
+}
+#endif // CHANGED

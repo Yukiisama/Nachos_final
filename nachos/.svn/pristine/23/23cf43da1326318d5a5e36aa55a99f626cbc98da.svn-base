@@ -1,0 +1,18 @@
+#include "syscall.h"
+
+void f(char c){
+  PutChar(c);
+  ThreadExit();
+}
+
+int main(){
+  int i = 0;
+  PutString("Lancement des tests\n",50);
+  for (i = 0;i<8;i++){
+    ThreadCreate(f,'A'+i);
+  }
+  while(1);
+  }
+ 
+
+ 

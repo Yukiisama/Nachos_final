@@ -1,0 +1,14 @@
+class userthread : dontcopythis
+{
+public:
+#ifdef CHANGED
+    userthread();
+
+    static void StartUserThread(void *schmurtz);
+
+#endif //CHANGED
+private:
+
+};
+extern int do_ThreadCreate(int f , int arg);
+extern void do_ThreadExit();

@@ -1,0 +1,19 @@
+#include "syscall.h"
+// #include "../threads/system.h" causes error during compilation
+
+#define MAX_STRING_SIZE 10 // the max string size is the size of the buffer that transports the String, we need it as we wanna test buffer overflow over the func
+
+int main()
+{
+#if 1
+    int size = MAX_STRING_SIZE;
+	char str[size];
+    int size_overflow = MAX_STRING_SIZE * 5;
+	char str_overflow[size_overflow];
+	GetString(str,size);                     // Normal test
+	PutString(str,size);
+	GetString(str_overflow,size_overflow);   // Buffer overflow test
+	PutString(str_overflow,size_overflow);
+#endif
+    return 0;
+}

@@ -1,0 +1,85 @@
+#ifdef CHANGED
+
+#include "copyright.h"
+
+#include "system.h"
+
+#include "synchconsole.h"
+
+#include "synch.h"
+
+static Semaphore *readAvail;
+static Semaphore *writeDone;
+
+static void ReadAvailHandler(void *arg) {
+  (void)arg;
+  readAvail->V();
+}
+static void WriteDoneHandler(void *arg) {
+  (void)arg;
+  writeDone->V();
+}
+
+SynchConsole::SynchConsole(const char *in, const char *out) {
+  readAvail = new Semaphore("read avail", 0);
+  writeDone = new Semaphore("write done", 0);
+  console = new Console(in, out, ReadAvailHandler, WriteDoneHandler, 0);
+}
+
+SynchConsole::~SynchConsole()
+
+{
+
+  delete console;
+
+  delete writeDone;
+
+  delete readAvail;
+}
+
+void SynchConsole::SynchPutChar(int ch)
+
+{
+  console->PutChar(ch);
+  writeDone->P(); // wait for write to finish
+}
+
+int SynchConsole::SynchGetChar()
+{
+  readAvail->P(); // wait for character to arrive
+  char ch = console->GetChar();
+  return (int) ch;
+}
+
+void SynchConsole::SynchPutString(const char s[])
+
+{
+    int i = 0;
+    while(s[i]!='\O'){
+      console->PutChar(s[i]);
+	    writeDone->P ();
+      i++;
+    }
+}
+
+void SynchConsole::SynchGetString(char *s, int n) {
+
+  //
+}
+
+#endif // CHANGED
+
+#ifdef CHANGED
+int SynchConsole::copyStringFromMachine(int from, char *to, unsigned size){
+    int value = 0;
+    unsigned int i = 0;
+    while(i<size && machine->ReadMem(from+i, 1, &value)){
+        to[i]= (char) value;
+        if(to[i]=='\0') break;
+        i+=1;
+    }
+    to[size]='\O';
+    return i;
+}
+
+#endif // CHANGED

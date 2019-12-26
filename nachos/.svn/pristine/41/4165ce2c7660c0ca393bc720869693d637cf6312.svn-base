@@ -1,0 +1,14 @@
+#include "syscall.h"
+
+void f(char c){
+  PutChar(c);
+  PutString("coucou",6);
+  ThreadExit();
+}
+
+int main(){
+  PutChar('a');
+  ThreadCreate(f,'A');
+  while(1);
+}
+ 
