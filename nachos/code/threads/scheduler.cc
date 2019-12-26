@@ -156,7 +156,7 @@ Scheduler::Run (Thread * nextThread)
 	//Finish thread si flag activé (bonusExit)
 
 	if(currentThread->space->bonusExit){
-        do_ThreadExit();
+	  do_ThreadExit();
     }
 #endif // CHANGED
 #endif  
